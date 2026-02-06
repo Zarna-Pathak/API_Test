@@ -1,12 +1,11 @@
-# Text Storage API (FastAPI)
+# Text API (FastAPI)
 
 ## Overview
-A simple REST API built using **Python and FastAPI** that accepts short text messages, stores them in memory, retrieves them, supports search, validates input, and handles idempotent POST requests.
+A simple API built using **Python and FastAPI** that accepts short text messages, stores them in memory, retrieves them, supports search, validates input, and handles idempotent POST requests.
 
 ---
 
 ## Tech Stack
-
 * Python 3
 * FastAPI
 * Uvicorn
