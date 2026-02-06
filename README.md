@@ -53,12 +53,6 @@ http://127.0.0.1:8000/docs
 
 ---
 
-### GET /texts
-
-* Returns all stored texts
-
----
-
 ### GET /texts?contains=word
 
 * Returns only texts containing the given word
@@ -71,6 +65,8 @@ http://127.0.0.1:8000/docs
 * Rejects empty text input (empty or whitespace-only)
 * Enforces maximum text length of 280 characters
 * Returns 400 for validation errors with clear messages
+* Requires "contains" query parameter for search requests
+* Returns 404 when no texts match the search query
 * Handles invalid or missing request bodies via FastAPI/Pydantic
 * Prevents duplicate POST requests using idempotency
 * Returns 409 Conflict if the same Idempotency-Key is reused with different text
