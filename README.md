@@ -99,7 +99,7 @@ http://127.0.0.1:8000/docs
 
 ---
 
-### 2. Prompts used (first 5)
+### 2. Prompts used
 
 1. “Guide me to build a simple API using Python and FastAPI”
 2. “Explain BaseModel in FastAPI in simple terms”
