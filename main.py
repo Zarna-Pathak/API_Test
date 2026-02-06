@@ -50,9 +50,11 @@ def create_texts(
 # RETRIVING TEXTS
 @app.get("/texts")
 def texts(contains: Optional[str] = None):
-    if contains:
-        return [
-            t for t in texts_db
-            if contains.lower() in t["text"].lower()
-        ]
-    return texts_db
+    if not contains or not contains.strip():
+        raise HTTPException(status_code=400, detail="Query parameter 'contains' is required for search")
+
+    return [
+        t for t in texts_db
+        if contains.lower() in t["text"].lower()
+    ]
+    
