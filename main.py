@@ -53,8 +53,15 @@ def texts(contains: Optional[str] = None):
     if not contains or not contains.strip():
         raise HTTPException(status_code=400, detail="Query parameter 'contains' is required for search")
 
-    return [
+    results = [
         t for t in texts_db
         if contains.lower() in t["text"].lower()
     ]
+
+    if not results:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No texts found containing '{contains}'"
+        )
+    return results
     
