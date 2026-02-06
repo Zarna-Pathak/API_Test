@@ -17,13 +17,21 @@ def create_texts(
     data: TextInput, 
     idempotency_key: Optional[str] = Header(None)
 ):
-    # Validation
-    if len(data.text) > 280:
-        raise HTTPException(status_code=400, detail="Text must be 280 characters or less")
+    # Empty text validation
+    if not data.text or not data.text.strip():
+        raise HTTPException(status_code=400, detail="Text must contain at least one non-whitespace character")
     
-    # Idempotency
+    # Length Validation
+    if len(data.text) > 280:
+        raise HTTPException(status_code=400, detail="Text exceeds the maximum length of 280 characters")
+    
+    # Idempotency handling
     if idempotency_key:
-        if idempotency_key in idempotency_store:
+        existing = idempotency_store.get(idempotency_key)
+        if existing:
+            if existing["request_text"] != data.text:
+                raise(HTTPException(status_code=409, detail="This Idempotency-Key was already used for a different text. Please use a new key"))
+        
             return idempotency_store[idempotency_key]
         
     record = {
@@ -33,8 +41,9 @@ def create_texts(
 
     texts_db.append(record)
 
+    # Store Idempotency Result
     if idempotency_key:
-        idempotency_store[idempotency_key] = record
+        idempotency_store[idempotency_key] = {"request_text":data.text, "response": record}
 
     return record
 
